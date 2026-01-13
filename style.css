@@ -1,0 +1,37 @@
+.todoContainer{
+    width: 500px;
+    background-color: rgb(230, 235, 235);
+    min-height: 100vh;
+    
+    border: 1px solid gray;
+    border-radius: 6px;
+}
+h2{
+    font-weight: bold;
+}
+
+button.btn.btn-danger.editDelete{
+    padding: 1px 4px;
+    /* font-size: 10px; */
+}
+
+button.btn.btn-primary.editDelete {
+    padding: 1px 5px;
+}
+td.text-center {
+    padding: 5px 5px;
+}
+
+i.fas.fa-edit {
+font-size: 20px !important;
+}
+.editDelete{
+    color: white;
+}
+
+input#inputName,input#inputQuantity,input#inputPrice{
+    background-color: #f1f5f5;
+}
+input#inputName {
+    /* background-color: gainsboro; */
+}
