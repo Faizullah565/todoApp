@@ -4,7 +4,7 @@ todos = [...parseData]
 if(todos){
     console.log(todos)
 }
-todos.length == 0 ? document.getElementById("listOfItems").style.display = "none" : document.getElementById("listOfItems").style.display = "block"
+parseData ? document.getElementById("listOfItems").style.display = "none" : document.getElementById("listOfItems").style.display = "block"
 document.getElementById("updateBtn").style.display = "none"
 let globalId = ''
 
