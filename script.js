@@ -1,9 +1,6 @@
 let parseData = JSON.parse(localStorage.getItem("todoListData"))
 let todos = []
 todos = [...parseData]
-if(todos){
-    console.log(todos)
-}
 parseData ? document.getElementById("listOfItems").style.display = "none" : document.getElementById("listOfItems").style.display = "block"
 document.getElementById("updateBtn").style.display = "none"
 let globalId = ''
@@ -103,6 +100,11 @@ const updateTodoData = (event) => {
 ///////////////////// Delete Todo Item /////////////////////////////////////////
 const deleteToDo = (id) => {
     let todoDelete = todos.filter(todo => todo.id != id)
+    // let showAlert = document.createElement("p")
+    // showAlert.id="showAlert"
+    // showAlert.className="showAlert"
+    // console.log(showAlert)
+    // document.getElementById("mainContainer").appendChild(showAlert)
     todos = [...todoDelete]
     localStorage.removeItem("todoListData")
     localStorage.setItem("todoListData", JSON.stringify(todos))

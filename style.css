@@ -5,6 +5,7 @@
     
     border: 1px solid gray;
     border-radius: 6px;
+    position: relative;
 }
 h2{
     font-weight: bold;
@@ -30,4 +31,16 @@ font-size: 20px !important;
 
 input#inputName,input#inputQuantity,input#inputPrice{
     background-color: #f1f5f5;
+}
+
+.showAlert{
+    width: 250px ;
+    height: 200px ;
+    background-color: yellow ;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
