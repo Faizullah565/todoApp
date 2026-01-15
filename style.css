@@ -1,5 +1,5 @@
 .todoContainer{
-    width: 500px;
+    width: 450px;
     background-color: rgb(230, 235, 235);
     min-height: 100vh;
     
@@ -12,7 +12,6 @@ h2{
 
 button.btn.btn-danger.editDelete{
     padding: 1px 4px;
-    /* font-size: 10px; */
 }
 
 button.btn.btn-primary.editDelete {
@@ -31,7 +30,4 @@ font-size: 20px !important;
 
 input#inputName,input#inputQuantity,input#inputPrice{
     background-color: #f1f5f5;
-}
-input#inputName {
-    /* background-color: gainsboro; */
 }

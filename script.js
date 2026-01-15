@@ -1,10 +1,36 @@
-
+let parseData = JSON.parse(localStorage.getItem("todoListData"))
 let todos = []
-todos.length==0?document.getElementById("listOfItems").style.display="none":document.getElementById("listOfItems").style.display="block"
-    document.getElementById("updateBtn").style.display="none"
-    let globalId = ''
+todos = [...parseData]
+if(todos){
+    console.log(todos)
+}
+todos.length == 0 ? document.getElementById("listOfItems").style.display = "none" : document.getElementById("listOfItems").style.display = "block"
+document.getElementById("updateBtn").style.display = "none"
+let globalId = ''
 
-// if(todos)document.getElementById("main-table").style.display="none"
+////////////////////////////Update todo list /////////////////////////////////////////
+const updateList = () => {
+    todos.length == 0 ? document.getElementById("listOfItems").style.display = "none" : document.getElementById("listOfItems").style.display = "block"
+    let data = todos.map(todo => {
+        return (`<tr>
+            <td class="text-center">${todo.name.charAt(0).toUpperCase() + todo.name.slice(1)}</td>
+            <td class="text-center">${todo.quantity}</td>
+            <td class="text-center">${(todo.price * todo.quantity / todo.quantity)}</td>
+        <td class="text-center">${todo.price * todo.quantity}</td>
+        <td class="text-center">
+        <button type="button" class="btn btn-primary editDelete" onclick="editToDo(${todo.id})"><i class='fas fa-edit' style='font-size:18px'></i></button>
+        </td>
+        <td class="text-center ">
+        <button type="button" class="btn btn-danger editDelete" onclick="deleteToDo(${todo.id})"><i class='far fa-trash-alt' style='font-size:20px'></i></button>
+        </td>
+        </tr>`)
+
+    });
+    document.getElementById("table-body").innerHTML = (data.join(""))
+}
+updateList()
+// /////////////////////// Add todo Items
+
 function handleTodos(event) {
     event.preventDefault()
     const name = document.getElementById("inputName").value
@@ -14,51 +40,44 @@ function handleTodos(event) {
         return
     }
     const checkNameExist = todos.map(todo => {
-        if (todo.name == name) {
+        if (todo.name.toLowerCase() == name.toLowerCase()) {
             return { ...todo, quantity: todo.quantity + quantity }
         }
         todos.push({
-            name: name,
+            name: name.toLowerCase(),
             quantity: quantity,
-            price: price/quantity,
+            price: price / quantity,
             id: Math.floor(Math.random() * 10000000),
         })
         return todo
     })
     todos = [...checkNameExist]
-    console.log(todos.filter(todo => todo.name == name).length == 0)
     if (todos.filter(todo => todo.name == name).length == 0) {
         todos.push({
-            name: name,
+            name: name.toLowerCase(),
             quantity: quantity,
-            price: price/quantity,
+            price: price / quantity,
             id: Math.floor(Math.random() * 10000000),
         })
     }
-    document.getElementById("inputName").value=''
-    document.getElementById("inputQuantity").value=''
-    document.getElementById("inputPrice").value=''
-    updateList()
+    localStorage.setItem("todoListData", JSON.stringify(todos))
+    clearForm();
 }
 //////////////////////// Edit Todo List //////////////////////////////////////
 const editToDo = (id) => {
-
-    console.log(id)
-    document.getElementById("addBtn").style.display="none"
-    document.getElementById("updateBtn").style.display="block"
+    document.getElementById("addBtn").style.display = "none"
+    document.getElementById("updateBtn").style.display = "block"
     const inputName = document.getElementById("inputName")
     const inputQuantity = document.getElementById("inputQuantity")
     const inputPrice = document.getElementById("inputPrice")
-
-    let findAndUpdate = todos.filter(todo=>todo.id==id)
-
-    inputName.value=findAndUpdate[0].name
-    inputQuantity.value=findAndUpdate[0].quantity
-    inputPrice.value=findAndUpdate[0].price * findAndUpdate[0].quantity  
-    globalId=id;
+    let findAndUpdate = todos.filter(todo => todo.id == id)
+    inputName.value = findAndUpdate[0].name.charAt(0).toUpperCase() + findAndUpdate[0].name.slice(1)
+    inputQuantity.value = findAndUpdate[0].quantity
+    inputPrice.value = findAndUpdate[0].price * findAndUpdate[0].quantity
+    globalId = id;
 }
-
-const updateTodoData=(event)=>{
+// /////////////////  Update Todo Item //////////////////
+const updateTodoData = (event) => {
     event.preventDefault()
     const name = document.getElementById("inputName").value
     const quantity = +document.getElementById("inputQuantity").value
@@ -68,55 +87,35 @@ const updateTodoData=(event)=>{
             if (name == '' || quantity == '' || price == '') {
                 return todo;
             }
-            else{
-                return { ...todo, name: name, quantity: +quantity, price: +price/+quantity }
+            else {
+                return { ...todo, name: name.toLowerCase(), quantity: +quantity, price: +price / +quantity }
             }
         }
         return todo
     })
     todos = [...updateTodo]
-    document.getElementById("addBtn").style.display="block"
-    document.getElementById("updateBtn").style.display="none"
-    document.getElementById("inputName").value=''
-    document.getElementById("inputQuantity").value=''
-    document.getElementById("inputPrice").value=''
-    updateList()
+    localStorage.removeItem("todoListData")
+    localStorage.setItem("todoListData", JSON.stringify(todos))
+    let parseData = JSON.parse(localStorage.getItem("todoListData"))
+    todos = [...parseData]
+    clearForm()
 }
 ///////////////////// Delete Todo Item /////////////////////////////////////////
 const deleteToDo = (id) => {
     let todoDelete = todos.filter(todo => todo.id != id)
     todos = [...todoDelete]
-    document.getElementById("inputName").value=''
-    document.getElementById("inputQuantity").value=''
-    document.getElementById("inputPrice").value=''
-    document.getElementById("addBtn").style.display="block"
-    document.getElementById("updateBtn").style.display="none"
-    updateList()
+    localStorage.removeItem("todoListData")
+    localStorage.setItem("todoListData", JSON.stringify(todos))
+    let parseData = JSON.parse(localStorage.getItem("todoListData"))
+    todos = [...parseData]
+    clearForm();
 }
 
-////////////////////////////Update todo list /////////////////////////////////////////
-let totals = 0
-let total = todos.map(todo=>{
-    return (totals = totals+ todo.price*todo.quantity)
-})
-console.log(totals)
-const updateList = () => {
-todos.length==0?document.getElementById("listOfItems").style.display="none":document.getElementById("listOfItems").style.display="block"
-    let data = todos.map(todo => {
-        // <th>${todo.id}</th>
-        return (`<tr>
-        <td class="text-center">${todo.name}</td>
-        <td class="text-center">${todo.quantity}</td>
-        <td class="text-center">${(todo.price * todo.quantity / todo.quantity)}</td>
-        <td class="text-center">${todo.price * todo.quantity}</td>
-        <td class="text-center">
-        <button type="button" class="btn btn-primary editDelete" onclick="editToDo(${todo.id})"><i class='fas fa-edit' style='font-size:18px'></i></button>
-        </td>
-        <td class="text-center ">
-        <button type="button" class="btn btn-danger editDelete" onclick="deleteToDo(${todo.id})"><i class='far fa-trash-alt' style='font-size:20px'></i></button>
-        </td>
-        </tr>`)
-        
-    });
-    document.getElementById("table-body").innerHTML = (data.join(""))
+const clearForm=()=>{
+document.getElementById("inputName").value = ''
+    document.getElementById("inputQuantity").value = ''
+    document.getElementById("inputPrice").value = ''
+    document.getElementById("addBtn").style.display = "block"
+    document.getElementById("updateBtn").style.display = "none"
+    updateList();
 }
